@@ -19,6 +19,13 @@ export const generateCandidates = ({candidateMoves}) => {
         payload : {candidateMoves}
     }
 }
+export const PlayerTurn=(Players)=>{
+    console.log("action called turn",Players);
+    return {
+        type:actionTypes.PLAYER_TURN,
+        payload:{Players}
+    }
+}
 
 export const takeBack = () => {
     return {

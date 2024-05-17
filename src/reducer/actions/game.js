@@ -33,3 +33,17 @@ export const setupNewGame = () => {
         payload : initGameState
     }
 }
+export const updatedRoom = (updatedRoom) => {
+    console.log("updated room action",updatedRoom);
+    return {
+        type: actionTypes.UPDATED_ROOM_DATA,
+        payload : updatedRoom
+    }
+}
+export const CreatePosition = (currentPosition) => {
+    console.log("current position action",currentPosition);
+    return {
+        type: actionTypes.CURRENT_POSITION,
+        payload : currentPosition
+    }
+}

@@ -9,7 +9,11 @@ const actionTypes = {
     "STALEMATE" : "STALEMATE",
     "INSUFFICIENT_MATERIAL" : "INSUFFICIENT_MATERIAL",
     "WIN" : "WIN",
-    "TAKE_BACK" : "TAKE_BACK"
+    "TAKE_BACK" : "TAKE_BACK",
+    "PLAYER_TURN":"PLAYER_TURN",
+    "CURRENT_POSITION":"CURRENT_POSITION",
+    "UPDATED_ROOM_DATA":"UPDATED_ROOM_DATA",
+    
 }
 
 export default actionTypes

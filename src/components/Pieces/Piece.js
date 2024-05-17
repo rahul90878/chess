@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import arbiter from '../../arbiter/arbiter';
 import { useAppContext }from '../../contexts/Context'
 import { generateCandidates } from '../../reducer/actions/move';
@@ -11,6 +12,14 @@ const Piece = ({
     const { appState, dispatch } = useAppContext();
     const { turn, castleDirection, position : currentPosition } = appState
 
+    useMemo(()=>{
+        const playerId=localStorage.getItem('playerId')
+        const nextPlayerColour=JSON.parse(localStorage.getItem('nextPlayer'))?.nextPlayerColour
+        const nextPlayerId=JSON.parse(localStorage.getItem('nextPlayer'))?.nextPlayerId
+
+    },[])
+   
+
     const onDragStart = e => {
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("text/plain",`${piece},${rank},${file}`)
@@ -18,7 +27,7 @@ const Piece = ({
             e.target.style.display = 'none'
         },0)
 
-        if (turn === piece[0]){
+        if (turn === piece[0] ){
             const candidateMoves = 
                 arbiter.getValidMoves({
                     position : currentPosition[currentPosition.length - 1],

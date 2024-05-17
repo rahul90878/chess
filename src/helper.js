@@ -1,7 +1,14 @@
+
+import socket from "./socket"
+
 export const getCharacter = file => String.fromCharCode(file + 96)
 export const createPosition = () => {
 
     const position = new Array(8).fill('').map(x => new Array(8).fill(''))
+
+//    const p=JSON.parse(localStorage.getItem('startGame'))?.createPosition
+//    console.log(p.createPosition,"000000000000000"   );
+    
 
     for (let i = 0; i < 8; i++) {
         position[6][i] = 'bp'
@@ -26,7 +33,7 @@ export const createPosition = () => {
     position[7][6] = 'bn'
     position[7][7] = 'br'
 
-    
+  
 
     return position
 }

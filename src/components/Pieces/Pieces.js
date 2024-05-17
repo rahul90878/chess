@@ -1,22 +1,54 @@
 import './Pieces.css'
 import Piece from './Piece'
-import { useRef  } from 'react'
+import { useEffect, useMemo, useReducer, useRef, useState  } from 'react'
 import { useAppContext }from '../../contexts/Context'
 import { openPromotion } from '../../reducer/actions/popup'
 import { getCastlingDirections } from '../../arbiter/getMoves'
 import { updateCastling, detectStalemate, detectInsufficientMaterial, detectCheckmate} from '../../reducer/actions/game'
 
-import { makeNewMove, clearCandidates } from '../../reducer/actions/move'
+import { makeNewMove, clearCandidates, PlayerTurn } from '../../reducer/actions/move'
 import arbiter from '../../arbiter/arbiter'
 import { getNewMoveNotation } from '../../helper'
+import socket from '../../socket'
+import { reducer } from '../../reducer/reducer'
+import { initGameState } from '../../constants'
 
 const Pieces = () => {
-
-    const { appState , dispatch } = useAppContext();
+    // const { appState , dispatch } = useAppContext();
+    const [appState, dispatch ] = useReducer(reducer,initGameState);
     const currentPosition = appState.position[appState.position.length-1]
+    const [position,setPosition]=useState([])
+
+    console.log(appState,"ddddddd");
+
+const playerId=localStorage.getItem('playerId')
+   
+  
 
     const ref = useRef()
+    useEffect(()=>{
+        socket.on('nextplayerTurn', data => {
+            console.log('Next player:',data);
+            dispatch(PlayerTurn(data))
+            
+        });
+     
+            socket.emit('doardData',{roomId:"6646f9942d302d8eec6692be",playerId:playerId,doardData:{currentPosition},});
+            socket.on('receive_doardData',data=>{
+                console.log(data,"jjjjjjjjjjj");
+                // dispatch(currentPosition(data))
+                
+            })  
 
+        
+       
+        return () => {
+            // socket.off('receive_doardData');
+            // socket.off('nextplayerTurn');
+            // socket.close();
+        };  
+     
+    },[currentPosition])
     const updateCastlingState = ({piece,file,rank}) => {
         const direction = getCastlingDirections({
             castleDirection:appState.castleDirection,
@@ -97,12 +129,17 @@ const Pieces = () => {
     
     const onDragOver = e => {e.preventDefault()}
 
+   
+    // const { appState : {PlayerTurn} } = useAppContext();
+    // console.log(PlayerTurn,"eeeeeeeeeeee");
+    // console.log(position.map((rank ,fill)=>fill),"ffffffffff");
+    // console.log(currentPosition,"aaaaaaaaaaa");
     return <div 
         className='pieces' 
         ref={ref} 
         onDrop={onDrop} 
         onDragOver={onDragOver} > 
-        {currentPosition.map((r,rank) => 
+        {currentPosition?.map((r,rank) => 
             r.map((f,file) => 
                 currentPosition[rank][file]
                 ?   <Piece 

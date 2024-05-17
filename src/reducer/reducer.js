@@ -1,5 +1,6 @@
 import { Status } from "../constants";
 import actionTypes from "./actionTypes";
+
 export const reducer = (state, action) => {
 
     switch (action.type) {
@@ -28,6 +29,29 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 candidateMoves
+            }
+        } 
+        case actionTypes.PLAYER_TURN : {
+            console.log('reducer called',action.payload);
+            const {Players} = action.payload
+            return {
+                ...state,
+                Players
+            }
+        } 
+        case actionTypes.CURRENT_POSITION : {
+            console.log('current position reducer called',action.payload);
+        
+            return {
+                ...state,
+                currentPosition:action.payload
+            }
+        } 
+        case actionTypes.UPDATED_ROOM_DATA : {
+            console.log('room data reducer called',action.payload);
+            return {
+                ...state,
+                updatedRoom:action.payload
             }
         } 
 
